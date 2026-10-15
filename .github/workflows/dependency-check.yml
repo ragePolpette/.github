@@ -1,0 +1,47 @@
+name: Dependency check
+
+on:
+  workflow_call:
+    inputs:
+      min-age-days:
+        description: Minimum age in days of a release before it is marked as ready
+        type: number
+        default: 30
+
+permissions:
+  contents: read
+  security-events: read
+
+jobs:
+  report:
+    name: Outdated dependencies and open alerts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: ragePolpette/.github
+          path: .dependency-check
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - if: hashFiles('package.json') != ''
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - if: hashFiles('package-lock.json') != ''
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - if: hashFiles('*.sln') != ''
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Build report
+        run: python .dependency-check/scripts/dependency_report.py
+        env:
+          MIN_AGE_DAYS: ${{ inputs.min-age-days }}
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dependency-report
+          path: dependency-report.md
