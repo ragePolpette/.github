@@ -197,7 +197,10 @@ def dependabot_alerts() -> list[dict]:
             {"Authorization": f"Bearer {TOKEN}", "Accept": "application/vnd.github+json"},
         )
     except Exception as exc:  # noqa: BLE001
-        notes.append(f"Dependabot alerts unavailable: {exc}")
+        notes.append(
+            f"Dependabot alerts could not be read with the workflow token ({exc}); "
+            f"check them in the Security tab: https://github.com/{REPO}/security/dependabot"
+        )
         return []
 
 
@@ -223,7 +226,7 @@ def main() -> int:
                 f"{adv.get('summary', '').replace('|', '/')} |"
             )
         lines.append("")
-    else:
+    elif not any("Dependabot alerts could not be read" in n for n in notes):
         lines.append("No open security alerts.")
         lines.append("")
 
