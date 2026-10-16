@@ -4,7 +4,7 @@ Reusable GitHub Actions workflows for the repositories under this account.
 
 ## dependency-check
 
-Produces a report of outdated dependencies (npm, pip, NuGet) with the release date of the latest version, and lists the open Dependabot security alerts. Updates are marked as ready only when the latest release is at least 30 days old, so freshly published versions have time to prove themselves. The workflow never opens pull requests.
+Produces a report of outdated dependencies (npm, pip, NuGet) with the release date of the latest version, and lists the open Dependabot security alerts. Updates are marked as ready only when the latest release is at least 45 days old, so freshly published versions have time to prove themselves. The workflow never opens pull requests.
 
 Call it from a repository with:
 

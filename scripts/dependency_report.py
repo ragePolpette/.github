@@ -19,7 +19,7 @@ import urllib.request
 from pathlib import Path
 
 NOW = dt.datetime.now(dt.timezone.utc)
-MIN_AGE_DAYS = int(os.environ.get("MIN_AGE_DAYS", "30"))
+MIN_AGE_DAYS = int(os.environ.get("MIN_AGE_DAYS", "45"))
 REPO = os.environ.get("REPO", "")
 TOKEN = os.environ.get("GH_TOKEN", "")
 UA = {"User-Agent": "dependency-report (github.com/ragePolpette)"}
