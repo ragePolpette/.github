@@ -6,7 +6,7 @@ on:
       min-age-days:
         description: Minimum age in days of a release before it is marked as ready
         type: number
-        default: 30
+        default: 45
 
 permissions:
   contents: read
